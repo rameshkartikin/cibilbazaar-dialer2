@@ -1,0 +1,19 @@
+# ---------- Desktop (Electron/Node) ----------
+desktop/node_modules/
+desktop/dist/
+desktop/release/
+desktop/*.log
+
+# ---------- Android ----------
+android/.gradle/
+android/.idea/
+android/local.properties
+android/*/build/
+android/app/build/
+android/keystore.properties
+android/*.keystore
+android/*.jks
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CibilBazaar Dialer</string>
+    <string name="pairing_title">Device Pairing</string>
+    <string name="grant_permissions">Grant Permissions</string>
+    <string name="permissions_required">Permissions required to connect and place calls</string>
+    <string name="status_connected">Connected via %1$s</string>
+    <string name="status_reconnecting">Reconnecting…</string>
+    <string name="status_connecting">Connecting…</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="offline_note">Works fully offline. No cloud, no internet required — data only travels between this phone and the paired desktop.</string>
+
+    <string name="wifi_section_title">WiFi Pairing</string>
+    <string name="pairing_code_hint">6-digit code shown on desktop</string>
+    <string name="manual_host_hint">Desktop IP (optional, if auto-discovery fails)</string>
+    <string name="save_and_connect">Save &amp; Connect</string>
+
+    <string name="bluetooth_section_title">Bluetooth Pairing</string>
+    <string name="tap_bluetooth_settings_hint">Pair the desktop PC in Bluetooth settings first, then refresh.</string>
+    <string name="no_paired_devices">No paired devices found yet.</string>
+    <string name="open_bt_settings">Open Bluetooth Settings</string>
+    <string name="refresh">Refresh</string>
+
+    <string name="usb_section_title">USB Connection</string>
+    <string name="usb_idle">Connect the USB cable to the desktop, then request permission.</string>
+    <string name="no_usb_accessory">No USB accessory detected. Check the cable connection.</string>
+    <string name="usb_permission_requested">Permission requested — approve the system prompt.</string>
+    <string name="request_usb_permission">Request USB Permission</string>
+</resources>

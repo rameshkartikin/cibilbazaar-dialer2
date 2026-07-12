@@ -1,0 +1,57 @@
+name: Build Windows Desktop App
+
+# Produces the real, installable CibilBazaar Dialer .exe automatically —
+# no local Windows machine or Visual Studio setup needed. Runs on GitHub's
+# hosted windows-latest runner, which already has the native build toolchain
+# electron-builder / node-gyp need to compile better-sqlite3, serialport,
+# and the Bluetooth native module.
+#
+# HOW TO USE:
+#   1. Push this whole repo to GitHub (e.g. `git init && git add . &&
+#      git commit -m "init" && git remote add origin <your-repo-url> &&
+#      git push -u origin main`).
+#   2. Go to the "Actions" tab on GitHub — this workflow runs automatically
+#      on every push to main, or click "Run workflow" to trigger it by hand.
+#   3. When it finishes (~5-10 min), open the run, scroll to "Artifacts",
+#      and download "CibilBazaarDialer-Windows-Installer" — that's your
+#      real, installable .exe.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "desktop/**"
+      - ".github/workflows/build-desktop.yml"
+  workflow_dispatch: {}
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: desktop
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies (also rebuilds native modules for Electron's ABI)
+        run: npm install
+
+      - name: Build TypeScript + copy renderer assets
+        run: npm run build
+
+      - name: Package Windows installer (.exe via electron-builder/NSIS)
+        run: npm run dist
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CibilBazaarDialer-Windows-Installer
+          path: desktop/release/*.exe
+          if-no-files-found: error
