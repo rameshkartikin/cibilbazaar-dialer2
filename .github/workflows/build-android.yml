@@ -15,13 +15,18 @@ name: Build Android APK
 #
 # This builds the DEBUG apk, which is directly installable and fully
 # functional for internal/business use. For a signed RELEASE apk, add
-# these repository secrets (Settings > Secrets and variables > Actions):
+# these repository secrets (Settings > Secrets and variables > Actions >
+# Secrets tab):
 #   ANDROID_KEYSTORE_BASE64   (base64 of your .keystore file)
 #   ANDROID_KEYSTORE_PASSWORD
 #   ANDROID_KEY_ALIAS
 #   ANDROID_KEY_PASSWORD
-# then re-run — the release job below activates automatically once those
-# secrets exist.
+# then ALSO add a repository VARIABLE (same page, "Variables" tab):
+#   HAS_SIGNING = true
+# (GitHub Actions doesn't allow checking whether a secret exists inside a
+# job-level `if:`, so this variable is the on/off switch for the release
+# job below — flip it to true once the four secrets above are set, then
+# re-run the workflow.)
 
 on:
   push:
@@ -67,7 +72,7 @@ jobs:
   build-release-apk:
     runs-on: ubuntu-latest
     needs: build-debug-apk
-    if: ${{ vars.HAS_SIGNING != '' || secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+    if: ${{ vars.HAS_SIGNING == 'true' }}
     defaults:
       run:
         working-directory: android
