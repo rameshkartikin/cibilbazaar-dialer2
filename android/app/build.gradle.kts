@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -15,19 +18,11 @@ android {
         versionName = "1.0.0"
     }
 
-    // Release signing reads from android/keystore.properties (NOT committed
-    // to source control). Generate a keystore once with:
-    //   keytool -genkeypair -v -keystore cibilbazaar-release.keystore \
-    //     -alias cibilbazaar -keyalg RSA -keysize 2048 -validity 10000
-    // Then create android/keystore.properties with:
-    //   storeFile=../cibilbazaar-release.keystore
-    //   storePassword=YOUR_STORE_PASSWORD
-    //   keyAlias=cibilbazaar
-    //   keyPassword=YOUR_KEY_PASSWORD
     val keystorePropsFile = rootProject.file("keystore.properties")
-    val keystoreProps = java.util.Properties()
+    val keystoreProps = Properties()
+
     if (keystorePropsFile.exists()) {
-        keystoreProps.load(java.io.FileInputStream(keystorePropsFile))
+        keystoreProps.load(FileInputStream(keystorePropsFile))
     }
 
     signingConfigs {
@@ -44,11 +39,16 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+
             if (keystorePropsFile.exists()) {
                 signingConfig = signingConfigs.getByName("release")
             }
         }
+
         debug {
             isMinifyEnabled = false
         }
